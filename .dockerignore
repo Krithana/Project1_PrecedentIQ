@@ -1,0 +1,12 @@
+.git
+.pytest_cache
+venv
+__pycache__
+*.pyc
+*.pptx
+image.png
+data/raw
+data/validation
+data/processed/extracted
+*.tar
+*.pdf

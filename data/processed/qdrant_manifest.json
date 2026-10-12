@@ -1,0 +1,5 @@
+{
+  "collection": "precedentiq_chunks",
+  "chunks": 11720,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2"
+}

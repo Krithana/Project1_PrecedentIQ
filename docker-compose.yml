@@ -1,0 +1,68 @@
+services:
+  api:
+    build:
+      context: .
+    container_name: precedentiq-api
+    environment:
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+      USE_QDRANT: "false"
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: 6333
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3.2:3b
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+      - ollama
+    restart: unless-stopped
+
+  ui:
+    build:
+      context: .
+    container_name: precedentiq-ui
+    command: ["streamlit", "run", "src/precedentiq/streamlit_app.py", "--server.address=0.0.0.0", "--server.port=8501", "--server.headless=true", "--browser.gatherUsageStats=false"]
+    environment:
+      API_HOST: 0.0.0.0
+      USE_QDRANT: "false"
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: 6333
+      OLLAMA_BASE_URL: http://ollama:11434
+      OLLAMA_MODEL: llama3.2:3b
+    ports:
+      - "8502:8501"
+    depends_on:
+      - qdrant
+      - ollama
+    restart: unless-stopped
+
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: precedentiq-qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage:z
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: precedentiq-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: precedentiq-ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ${USERPROFILE}/.ollama:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  qdrant_storage:
+  ollama_storage:
