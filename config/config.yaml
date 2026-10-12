@@ -1,0 +1,28 @@
+# PrecedentIQ — project configuration
+# Tune these values to control how much data you pull. Start small (defaults below),
+# confirm the pipeline works end-to-end, THEN scale up toward the 50,000-judgment target.
+
+aws:
+  sc_bucket: "indian-supreme-court-judgments"
+  hc_bucket: "indian-high-court-judgments"
+  region: "ap-south-1"          # buckets are region-agnostic to read, but this is their home region
+  # Start with a narrow slice — expand years/courts once the pipeline is proven
+  sc_years: [2022, 2023]
+  hc_years: [2025]                # keep the first High Court download bounded
+  hc_courts: ["23_23"]             # small High Court slice for the first pipeline run
+
+huggingface:
+  # IL-TUR's CJPE task = 56 expert-annotated judgments, best fit for validating
+  # your holding/ratio extraction (Objective O2 in your SMART objectives)
+  il_tur_task: "cjpe"
+  # IL-PCSR = precedent retrieval queries + candidate pool, best fit for validating
+  # your hybrid retrieval quality (nDCG@10 / MRR)
+  pull_il_pcsr: true
+
+paths:
+  raw_dir: "data/raw"
+  processed_dir: "data/processed"
+  validation_dir: "data/validation"
+
+logging:
+  level: "INFO"
