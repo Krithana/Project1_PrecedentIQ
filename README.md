@@ -178,13 +178,4 @@ python -m unittest discover tests/
 
 ---
 
-## 🔬 Academic Evaluation & Reviewer Q&A
 
-**Q: Why not just use ChatGPT or a raw off-the-shelf LLM?**  
-*A:* A general LLM does not have direct access to the full, updated corpus of Indian judgments and frequently hallucinates case citations and section references. PrecedentIQ uses an **evidence-first constraint**: every sentence in the brief traces directly to a verified `chunk_id` in the corpus.
-
-**Q: Why is hybrid retrieval necessary instead of pure semantic search?**  
-*A:* In Indian law, exact statutory terms (e.g., *"Section 138 NI Act"*, *"Order 1 Rule 10 CPC"*) require exact sparse keyword matching, whereas legal principles (e.g., *"fiduciary breach"*, *"abuse of process"*) require semantic dense matching. Hybrid search with Reciprocal Rank Fusion (RRF) provides both.
-
-**Q: How is court hierarchy respected?**  
-*A:* Under Article 141 of the Constitution of India, the law declared by the Supreme Court is binding on all courts. PrecedentIQ's scoring engine applies a constitutional weight booster (1.2x) to Supreme Court precedents over High Court judgments when resolving identical questions of law.
