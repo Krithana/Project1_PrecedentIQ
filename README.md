@@ -20,7 +20,7 @@ Junior advocates and small/medium law firms in India spend significant portions 
 
 ---
 
-## 🏗️ 6-Layer System Architecture
+## 🏗️ System Architecture
 
 ```
 [ Advocate / Browser ]
